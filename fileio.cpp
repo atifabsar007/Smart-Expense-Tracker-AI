@@ -1,30 +1,31 @@
+#include "fileio.h"
 #include <fstream>
-#include <vector>
-#include "expense.h"
 
-using namespace std;
+void saveData(string username, vector<Expense> data) {
+    ofstream file(username + "_data.txt");
 
-void saveData(vector<Expense> &expenses) {
-    ofstream file("data.txt");
-
-    for (auto &e : expenses) {
+    for (auto &e : data)
         file << e.category << " " << e.amount << "\n";
-    }
-
-    file.close();
 }
 
-vector<Expense> loadData() {
-    vector<Expense> expenses;
-    ifstream file("data.txt");
+vector<Expense> loadData(string username) {
+    vector<Expense> data;
+    ifstream file(username + "_data.txt");
 
-    string cat;
-    double amt;
+    string c;
+    double a;
 
-    while (file >> cat >> amt) {
-        expenses.push_back({cat, amt});
-    }
+    while (file >> c >> a)
+        data.push_back({c, a});
 
-    file.close();
-    return expenses;
+    return data;
+}
+
+void exportCSV(string username, vector<Expense> data) {
+    ofstream file(username + "_report.csv");
+
+    file << "Category,Amount\n";
+
+    for (auto &e : data)
+        file << e.category << "," << e.amount << "\n";
 }
