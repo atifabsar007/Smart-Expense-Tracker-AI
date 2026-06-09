@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <map>
 #include "expense.h"
 
@@ -13,19 +14,23 @@ void smartAdvice(const vector<Expense>& expenses) {
         sum += e.amount;
     }
 
-    cout << "\n🤖 AI Budget Advice:\n";
+    cout << "\n🤖 AI ANALYSIS\n";
 
-    if (sum == 0) return;
+    if (sum == 0) {
+        cout << "No expenses yet.\n";
+        return;
+    }
 
     for (auto &t : total) {
         double percent = (t.second / sum) * 100;
 
-        if (percent > 50) {
-            cout << "- Critical: " << t.first << " uses " << percent << "% of budget\n";
-        } else if (percent > 30) {
-            cout << "- Warning: High spending in " << t.first << "\n";
+        if (percent > 60) {
+            cout << "🚨 Critical: " << t.first << " dominates spending (" << percent << "%)\n";
+        }
+        else if (percent > 40) {
+            cout << "⚠ Warning: High spending in " << t.first << "\n";
         }
     }
 
-    cout << "- Tip: Maintain diversified spending habits\n";
+    cout << "💡 Tip: Try balancing your budget across categories\n";
 }
