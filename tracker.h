@@ -2,20 +2,26 @@
 #define TRACKER_H
 
 #include <vector>
-#include <stack>
 #include <string>
 #include "expense.h"
 
 using namespace std;
 
 class Tracker {
-public:
+private:
     vector<Expense> expenses;
-    stack<Expense> history;
+    double budget;
+
+public:
+    string username;
+
+    Tracker(string user);
 
     void addExpense(string category, double amount);
     void showReport();
-    void undoLast();
+    void setBudget(double b);
+    double getTotal();
+    vector<Expense> getAll();
 };
 
 #endif
