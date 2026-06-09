@@ -1,5 +1,6 @@
 #include "tracker.h"
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -13,13 +14,11 @@ void Tracker::addExpense(string category, double amount) {
 
 void Tracker::undoLast() {
     if (!history.empty()) {
-        Expense last = history.top();
         history.pop();
         expenses.pop_back();
-
-        cout << "↩ Last expense removed: " << last.category << " - " << last.amount << "\n";
+        cout << "↩ Last expense removed!\n";
     } else {
-        cout << "No history to undo!\n";
+        cout << "⚠ No history to undo!\n";
     }
 }
 
@@ -27,7 +26,7 @@ void Tracker::showReport() {
     map<string, double> total;
     double sum = 0;
 
-    cout << "\n📊 Expense Report:\n";
+    cout << "\n📊 EXPENSE REPORT\n";
 
     for (auto &e : expenses) {
         total[e.category] += e.amount;
@@ -39,14 +38,19 @@ void Tracker::showReport() {
     }
 
     cout << "----------------------\n";
-    cout << "Total Spent: " << sum << "\n";
+    cout << "Total Spending: " << sum << "\n";
 
-    cout << "\n🧠 Smart Insights:\n";
+    cout << "\n🧠 SMART INSIGHTS\n";
 
     for (auto &t : total) {
-        if (sum > 0 && t.second / sum > 0.4) {
-            cout << "⚠ Overspending detected in " << t.first << "\n";
-            cout << "👉 Suggestion: Try reducing " << t.first << " expenses\n";
+        double percent = (sum == 0) ? 0 : (t.second / sum) * 100;
+
+        if (percent > 50) {
+            cout << "⚠ High spending in " << t.first << " (" << percent << "%)\n";
+            cout << "👉 Suggestion: Reduce " << t.first << " expenses\n";
+        }
+        else if (percent > 30) {
+            cout << "⚠ Moderate spending in " << t.first << "\n";
         }
     }
 }
