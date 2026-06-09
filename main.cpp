@@ -1,46 +1,61 @@
 #include <iostream>
+#include "auth.h"
 #include "tracker.h"
+#include "fileio.h"
 
 using namespace std;
 
 int main() {
-    Tracker t;
+    string user, pass;
+
+    cout << "=== SMART EXPENSE TRACKER ===\n";
+
+    cout << "Username: ";
+    cin >> user;
+
+    cout << "Password: ";
+    cin >> pass;
+
+    if (!loginUser(user, pass)) {
+        cout << "User not found. Creating account...\n";
+        registerUser(user, pass);
+    }
+
+    Tracker tracker(user);
+
+    tracker.setBudget(5000);
 
     int choice;
-    string category;
-    double amount;
+    string cat;
+    double amt;
 
     while (true) {
-        cout << "\n===== SMART EXPENSE TRACKER =====\n";
-        cout << "1. Add Expense\n";
-        cout << "2. Show Report\n";
-        cout << "3. Undo Last\n";
-        cout << "4. Exit\n";
-        cout << "Enter choice: ";
+        cout << "\n1.Add Expense\n2.Show Report\n3.Export CSV\n4.Exit\n";
         cin >> choice;
 
         if (choice == 1) {
             cout << "Category: ";
-            cin >> category;
+            cin >> cat;
             cout << "Amount: ";
-            cin >> amount;
+            cin >> amt;
 
-            t.addExpense(category, amount);
+            tracker.addExpense(cat, amt);
         }
+
         else if (choice == 2) {
-            t.showReport();
+            tracker.showReport();
         }
+
         else if (choice == 3) {
-            t.undoLast();
+            exportCSV(user, tracker.getAll());
+            cout << "✔ Exported!\n";
         }
-        else if (choice == 4) {
-            cout << "Exiting...\n";
-            break;
-        }
-        else {
-            cout << "Invalid choice!\n";
-        }
+
+        else break;
     }
+
+    saveData(user, tracker.getAll());
+    cout << "Data saved.\n";
 
     return 0;
 }
