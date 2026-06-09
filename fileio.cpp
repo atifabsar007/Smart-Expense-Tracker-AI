@@ -1,6 +1,6 @@
 #include <fstream>
-#include "expense.h"
 #include <vector>
+#include "expense.h"
 
 using namespace std;
 
