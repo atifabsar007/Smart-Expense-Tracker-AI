@@ -4,53 +4,45 @@
 
 using namespace std;
 
-void Tracker::addExpense(string category, double amount) {
-    Expense e = {category, amount};
-    expenses.push_back(e);
-    history.push(e);
-
-    cout << "✔ Expense added successfully!\n";
+Tracker::Tracker(string user) {
+    username = user;
+    budget = 0;
 }
 
-void Tracker::undoLast() {
-    if (!history.empty()) {
-        history.pop();
-        expenses.pop_back();
-        cout << "↩ Last expense removed!\n";
-    } else {
-        cout << "⚠ No history to undo!\n";
-    }
+void Tracker::addExpense(string category, double amount) {
+    expenses.push_back({category, amount});
+}
+
+void Tracker::setBudget(double b) {
+    budget = b;
+}
+
+double Tracker::getTotal() {
+    double sum = 0;
+    for (auto &e : expenses) sum += e.amount;
+    return sum;
+}
+
+vector<Expense> Tracker::getAll() {
+    return expenses;
 }
 
 void Tracker::showReport() {
-    map<string, double> total;
-    double sum = 0;
+    map<string, double> mp;
+    double total = getTotal();
 
-    cout << "\n📊 EXPENSE REPORT\n";
+    cout << "\n📊 REPORT FOR " << username << "\n";
 
-    for (auto &e : expenses) {
-        total[e.category] += e.amount;
-        sum += e.amount;
-    }
+    for (auto &e : expenses)
+        mp[e.category] += e.amount;
 
-    for (auto &t : total) {
-        cout << t.first << " → " << t.second << "\n";
-    }
+    for (auto &x : mp)
+        cout << x.first << " -> " << x.second << "\n";
 
-    cout << "----------------------\n";
-    cout << "Total Spending: " << sum << "\n";
+    cout << "-----------------\n";
+    cout << "Total: " << total << "\n";
+    cout << "Budget: " << budget << "\n";
 
-    cout << "\n🧠 SMART INSIGHTS\n";
-
-    for (auto &t : total) {
-        double percent = (sum == 0) ? 0 : (t.second / sum) * 100;
-
-        if (percent > 50) {
-            cout << "⚠ High spending in " << t.first << " (" << percent << "%)\n";
-            cout << "👉 Suggestion: Reduce " << t.first << " expenses\n";
-        }
-        else if (percent > 30) {
-            cout << "⚠ Moderate spending in " << t.first << "\n";
-        }
-    }
+    if (budget > 0 && total > budget)
+        cout << "⚠ OVER BUDGET!\n";
 }
