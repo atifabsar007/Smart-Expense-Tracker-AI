@@ -11,13 +11,14 @@ class Tracker {
 private:
     vector<Expense> expenses;
     double budget;
+    int counter;
 
 public:
     string username;
 
     Tracker(string user);
 
-    void addExpense(string category, double amount);
+    void addExpense(string category, double amount, string note);
     void showReport();
     void setBudget(double b);
     double getTotal();
