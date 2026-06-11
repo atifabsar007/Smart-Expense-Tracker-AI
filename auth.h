@@ -4,7 +4,11 @@
 #include <string>
 using namespace std;
 
-bool registerUser(string username, string password);
-bool loginUser(string username, string password);
+class Auth {
+public:
+    bool registerUser(const string& username, const string& password);
+    bool loginUser(const string& username, const string& password);
+    bool userExists(const string& username);
+};
 
 #endif
