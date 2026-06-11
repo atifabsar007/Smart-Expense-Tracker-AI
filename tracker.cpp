@@ -1,20 +1,23 @@
-#include "analytics.h"
 #include "tracker.h"
+#include "analytics.h"
 #include <iostream>
 #include <map>
 
 using namespace std;
 
+// Constructor
 Tracker::Tracker(string user) {
     username = user;
     budget = 0;
     counter = 0;
 }
 
+// Set budget
 void Tracker::setBudget(double b) {
     budget = b;
 }
 
+// Add expense
 void Tracker::addExpense(string category, double amount, string note) {
 
     counter++;
@@ -28,7 +31,9 @@ void Tracker::addExpense(string category, double amount, string note) {
     expenses.push_back(e);
 }
 
+// Total calculation
 double Tracker::getTotal() {
+
     double sum = 0;
 
     for (auto &e : expenses)
@@ -37,13 +42,15 @@ double Tracker::getTotal() {
     return sum;
 }
 
+// Return all expenses
 vector<Expense> Tracker::getAll() {
     return expenses;
 }
 
+// =======================
+// SHOW REPORT (FIXED)
+// =======================
 void Tracker::showReport() {
-
-  void Tracker::showReport() {
 
     Analytics analytics;
 
@@ -57,27 +64,30 @@ void Tracker::showReport() {
     cout << " EXPENSE REPORT\n";
     cout << "====================\n";
 
-    // breakdown
-    for (auto &e : expenses)
+    // category breakdown
+    for (auto &e : expenses) {
         mp[e.category] += e.amount;
+    }
 
-    for (auto &x : mp)
+    for (auto &x : mp) {
         cout << x.first << " -> " << x.second << "\n";
+    }
 
     cout << "--------------------\n";
     cout << "TOTAL: " << total << "\n";
 
+    // budget check
     if (budget > 0) {
         double percent = (total / budget) * 100;
+
         cout << "Budget Used: " << percent << "%\n";
 
         if (total > budget)
             cout << "⚠ OVER BUDGET!\n";
     }
 
-    // 🔥 ANALYTICS ENGINE OUTPUT
+    // analytics section
     cout << "\n📊 ANALYTICS:\n";
     cout << "- Top Category: " << top << "\n";
     cout << "- Average Expense: " << avg << "\n";
-    }
 }
