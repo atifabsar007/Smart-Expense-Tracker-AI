@@ -2,6 +2,7 @@
 #define ANALYTICS_H
 
 #include <vector>
+#include <string>
 #include "expense.h"
 
 using namespace std;
@@ -11,7 +12,6 @@ public:
     double totalSpent(const vector<Expense>& expenses);
     string topCategory(const vector<Expense>& expenses);
     double averageSpend(const vector<Expense>& expenses);
-    double categoryPercentage(const vector<Expense>& expenses, string category);
 };
 
 #endif
