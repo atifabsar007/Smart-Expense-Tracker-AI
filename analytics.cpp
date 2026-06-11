@@ -34,27 +34,7 @@ string Analytics::topCategory(const vector<Expense>& expenses) {
 
 double Analytics::averageSpend(const vector<Expense>& expenses) {
 
-    if (expenses.empty())
-        return 0;
+    if (expenses.empty()) return 0;
 
     return totalSpent(expenses) / expenses.size();
-}
-
-double Analytics::categoryPercentage(
-    const vector<Expense>& expenses,
-    string category
-) {
-
-    double total = totalSpent(expenses);
-    double catSum = 0;
-
-    for (auto &e : expenses) {
-        if (e.category == category)
-            catSum += e.amount;
-    }
-
-    if (total == 0)
-        return 0;
-
-    return (catSum / total) * 100;
 }
