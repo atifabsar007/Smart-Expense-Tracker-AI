@@ -1,3 +1,4 @@
+#include "analytics.h"
 #include "tracker.h"
 #include <iostream>
 #include <map>
@@ -42,40 +43,41 @@ vector<Expense> Tracker::getAll() {
 
 void Tracker::showReport() {
 
+  void Tracker::showReport() {
+
+    Analytics analytics;
+
+    double total = analytics.totalSpent(expenses);
+    string top = analytics.topCategory(expenses);
+    double avg = analytics.averageSpend(expenses);
+
     map<string, double> mp;
-    double total = getTotal();
 
     cout << "\n====================\n";
     cout << " EXPENSE REPORT\n";
     cout << "====================\n";
 
+    // breakdown
     for (auto &e : expenses)
         mp[e.category] += e.amount;
 
-    string top;
-    double maxv = 0;
-
-    for (auto &x : mp) {
+    for (auto &x : mp)
         cout << x.first << " -> " << x.second << "\n";
-
-        if (x.second > maxv) {
-            maxv = x.second;
-            top = x.first;
-        }
-    }
 
     cout << "--------------------\n";
     cout << "TOTAL: " << total << "\n";
 
-    cout << "\n📊 INSIGHTS:\n";
-    cout << "- Top Category: " << top << "\n";
-
     if (budget > 0) {
         double percent = (total / budget) * 100;
-
-        cout << "- Budget Used: " << percent << "%\n";
+        cout << "Budget Used: " << percent << "%\n";
 
         if (total > budget)
             cout << "⚠ OVER BUDGET!\n";
+    }
+
+    // 🔥 ANALYTICS ENGINE OUTPUT
+    cout << "\n📊 ANALYTICS:\n";
+    cout << "- Top Category: " << top << "\n";
+    cout << "- Average Expense: " << avg << "\n";
     }
 }
