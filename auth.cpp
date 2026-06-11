@@ -1,8 +1,5 @@
 #include "auth.h"
 #include <fstream>
-#include <iostream>
-
-using namespace std;
 
 bool Auth::userExists(const string& username) {
     ifstream file("data/users.txt");
@@ -33,7 +30,6 @@ bool Auth::loginUser(const string& username, const string& password) {
     ifstream file("data/users.txt");
 
     string u, p;
-    int attempts = 0;
 
     while (file >> u >> p) {
         if (u == username && p == password)
