@@ -2,30 +2,35 @@
 #include <fstream>
 
 void saveData(string username, vector<Expense> data) {
-    ofstream file(username + "_data.txt");
 
-    for (auto &e : data)
-        file << e.category << " " << e.amount << "\n";
+    ofstream file("data/" + username + ".txt");
+
+    for (auto &e : data) {
+        file << e.transactionId << " "
+             << e.category << " "
+             << e.amount << " "
+             << e.note << "\n";
+    }
 }
 
 vector<Expense> loadData(string username) {
+
     vector<Expense> data;
-    ifstream file(username + "_data.txt");
+    ifstream file("data/" + username + ".txt");
 
-    string c;
-    double a;
+    string id, cat, note;
+    double amt;
 
-    while (file >> c >> a)
-        data.push_back({c, a});
+    while (file >> id >> cat >> amt >> note) {
+
+        Expense e;
+        e.transactionId = id;
+        e.category = cat;
+        e.amount = amt;
+        e.note = note;
+
+        data.push_back(e);
+    }
 
     return data;
-}
-
-void exportCSV(string username, vector<Expense> data) {
-    ofstream file(username + "_report.csv");
-
-    file << "Category,Amount\n";
-
-    for (auto &e : data)
-        file << e.category << "," << e.amount << "\n";
 }
