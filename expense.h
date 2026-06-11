@@ -5,8 +5,10 @@
 using namespace std;
 
 struct Expense {
+    string transactionId;
     string category;
     double amount;
+    string note;
 };
 
 #endif
