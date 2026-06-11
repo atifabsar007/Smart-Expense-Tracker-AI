@@ -1,36 +1,60 @@
-#include <iostream>
-#include <vector>
+#include "analytics.h"
 #include <map>
-#include "expense.h"
 
-using namespace std;
+double Analytics::totalSpent(const vector<Expense>& expenses) {
 
-void smartAdvice(const vector<Expense>& expenses) {
-    map<string, double> total;
     double sum = 0;
 
-    for (auto &e : expenses) {
-        total[e.category] += e.amount;
+    for (auto &e : expenses)
         sum += e.amount;
-    }
 
-    cout << "\n🤖 AI ANALYSIS\n";
+    return sum;
+}
 
-    if (sum == 0) {
-        cout << "No expenses yet.\n";
-        return;
-    }
+string Analytics::topCategory(const vector<Expense>& expenses) {
 
-    for (auto &t : total) {
-        double percent = (t.second / sum) * 100;
+    map<string, double> mp;
 
-        if (percent > 60) {
-            cout << "🚨 Critical: " << t.first << " dominates spending (" << percent << "%)\n";
+    for (auto &e : expenses)
+        mp[e.category] += e.amount;
+
+    string top;
+    double maxv = 0;
+
+    for (auto &x : mp) {
+
+        if (x.second > maxv) {
+            maxv = x.second;
+            top = x.first;
         }
-        else if (percent > 40) {
-            cout << "⚠ Warning: High spending in " << t.first << "\n";
-        }
     }
 
-    cout << "💡 Tip: Try balancing your budget across categories\n";
+    return top;
+}
+
+double Analytics::averageSpend(const vector<Expense>& expenses) {
+
+    if (expenses.empty())
+        return 0;
+
+    return totalSpent(expenses) / expenses.size();
+}
+
+double Analytics::categoryPercentage(
+    const vector<Expense>& expenses,
+    string category
+) {
+
+    double total = totalSpent(expenses);
+    double catSum = 0;
+
+    for (auto &e : expenses) {
+        if (e.category == category)
+            catSum += e.amount;
+    }
+
+    if (total == 0)
+        return 0;
+
+    return (catSum / total) * 100;
 }
