@@ -21,7 +21,7 @@ void Tracker::setBudget(double b) {
 // Add expense
 bool Tracker::addExpense(const string& category, double amount, const string& note) {
     // Reject empty categories and non-positive or non-finite amounts.
-    if (category.find_first_not_of(" \\t\\r\\n") == string::npos ||
+    if (category.find_first_not_of(" \t\r\n") == string::npos ||
         !isfinite(amount) || amount <= 0.0) {
         return false;
     }
