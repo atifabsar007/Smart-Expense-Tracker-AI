@@ -52,7 +52,11 @@ int main() {
             cout << "Note: ";
             cin >> note;
 
-            tracker.addExpense(cat, amt, note);
+            if (tracker.addExpense(cat, amt, note)) {
+                cout << "Expense added successfully.\\n";
+            } else {
+                cout << "Invalid expense. Enter a category and an amount greater than zero.\\n";
+            }
         }
 
         else if (choice == 2) {
