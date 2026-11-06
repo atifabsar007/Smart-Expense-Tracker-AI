@@ -18,7 +18,7 @@ public:
 
     Tracker(string user);
 
-    void addExpense(string category, double amount, string note);
+    bool addExpense(const string& category, double amount, const string& note);
     void showReport();
     void setBudget(double b);
     double getTotal();
