@@ -53,9 +53,9 @@ int main() {
             cin >> note;
 
             if (tracker.addExpense(cat, amt, note)) {
-                cout << "Expense added successfully.\\n";
+                cout << "Expense added successfully.\n";
             } else {
-                cout << "Invalid expense. Enter a category and an amount greater than zero.\\n";
+                cout << "Invalid expense. Enter a category and an amount greater than zero.\n";
             }
         }
 
