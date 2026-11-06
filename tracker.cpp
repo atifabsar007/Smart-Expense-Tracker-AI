@@ -2,6 +2,7 @@
 #include "analytics.h"
 #include <iostream>
 #include <map>
+#include <cmath>
 
 using namespace std;
 
@@ -18,17 +19,22 @@ void Tracker::setBudget(double b) {
 }
 
 // Add expense
-void Tracker::addExpense(string category, double amount, string note) {
-
-    counter++;
+bool Tracker::addExpense(const string& category, double amount, const string& note) {
+    // Reject empty categories and non-positive or non-finite amounts.
+    if (category.find_first_not_of(" \\t\\r\\n") == string::npos ||
+        !isfinite(amount) || amount <= 0.0) {
+        return false;
+    }
 
     Expense e;
-    e.transactionId = "TXN-" + to_string(counter);
+    e.transactionId = "TXN-" + to_string(counter + 1);
     e.category = category;
     e.amount = amount;
     e.note = note;
 
     expenses.push_back(e);
+    ++counter;
+    return true;
 }
 
 // Total calculation
